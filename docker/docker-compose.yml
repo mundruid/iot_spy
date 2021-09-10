@@ -33,7 +33,8 @@ services:
   telegraf:
     image: telegraf:1.19
     volumes:
-      - "./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf"
+      - "/mnt/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf"
+      - "/mnt/telegraf_data/:/usr/local/sbin/"
     environment:
       INFLUXDB_USER: "user"
       INFLUXDB_USER_PASSWORD: "${INFLUXDB_USER_PASSWORD}"
