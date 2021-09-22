@@ -3,10 +3,10 @@
     "eth.dst": "",
     "ip.src": "",
     "ip.dst": "",
-    "srcport": "",
-    "dstport": "",
-    "protocol": "",
-    "length": "",
-    "time": "",
-    "interarrival": ""
+    "ip.len": "",
+    "frame.time_delta": "",
+    "tcp.srcport": "",
+    "udp.srcport": "",
+    "tcp.dstport": "",
+    "udp.dstport": ""
 }

@@ -20,37 +20,12 @@ def read_process_tcpdump():
                 eth_dst = False
                 eth_src = False
             if start:
+                # timestamp is always needed
                 if "frame.time_epoch" in line:
                     str_with_comma = line.split()[1]
                     tcpdump_data["time"] = int(
                         float(str_with_comma[1:-2]) * CONVERT_NANOSEC
                     )
-
-                if "frame.time_delta" in line:
-                    str_with_comma = line.split()[1]
-                    tcpdump_data["interarrival"] = float(str_with_comma[1:-2])
-
-                if "eth.dst" in line and not eth_dst:
-                    str_with_comma = line.split()[1]
-                    tcpdump_data["eth.dst"] = str_with_comma[1:-2]
-                    eth_dst = True
-
-                if "eth.src" in line and not eth_src:
-                    str_with_comma = line.split()[1]
-                    tcpdump_data["eth.src"] = str_with_comma[1:-2]
-                    eth_src = True
-
-                if "ip.len" in line:
-                    str_with_comma = line.split()[1]
-                    tcpdump_data["length"] = str_with_comma[1:-2]
-
-                if "ip.src" in line:
-                    str_with_comma = line.split()[1]
-                    tcpdump_data["ip.src"] = str_with_comma[1:-2]
-
-                if "ip.dst" in line:
-                    str_with_comma = line.split()[1]
-                    tcpdump_data["ip.dst"] = str_with_comma[1:-2]
 
                 if "tcp" in line:
                     tcpdump_data["protocol"] = "TCP"
@@ -58,25 +33,29 @@ def read_process_tcpdump():
                 if "udp" in line:
                     tcpdump_data["protocol"] = "UDP"
 
-                if "tcp.srcport" in line:
-                    str_with_comma = line.split()[1]
-                    tcpdump_data["srcport"] = str_with_comma[1:-2]
+                for key in tcpdump_data:
+                    if key in line:
+                        str_with_comma = line.split()[1]
+                        tcpdump_data[key] = str_with_comma[1:-2]
 
-                if "udp.srcport" in line:
-                    str_with_comma = line.split()[1]
-                    tcpdump_data["srcport"] = str_with_comma[1:-2]
+                        if key == "frame.time_delta":
+                            tcpdump_data[key] = float(tcpdump_data[key])
 
-                if "tcp.dstport" in line:
-                    str_with_comma = line.split()[1]
-                    tcpdump_data["dstport"] = str_with_comma[1:-2]
-                    print_tcpdump(tcpdump_data)
-                    start = False
+                        # there may be two of these, one mac and one diff format
+                        if key == "eth_dst" and not eth_dst:
+                            eth_dst = True
 
-                if "udp.dstport" in line:
-                    str_with_comma = line.split()[1]
-                    tcpdump_data["dstport"] = str_with_comma[1:-2]
-                    print_tcpdump(tcpdump_data)
-                    start = False
+                        # there may be two of these, one mac and one diff format
+                        if key == "eth_src" and not eth_src:
+                            eth_src = True
+
+                        if key == "tcp.dstport":
+                            print_tcpdump(tcpdump_data)
+                            start = False
+
+                        if key == "udp.dstport":
+                            print_tcpdump(tcpdump_data)
+                            start = False
 
 
 def print_tcpdump(data):
@@ -87,7 +66,6 @@ def print_tcpdump(data):
     "tcp.srcport": "45614",
     "tcp.dstport": "443",
     "frame.time_epoch": "1630978241.686958032",
-
     """
     with open("iot_spy/data/devices.json", encoding="utf8") as devices_file:
         devices = json.load(devices_file)
@@ -98,19 +76,20 @@ def print_tcpdump(data):
             f",device_src={device_src}"
             f",device_dst={device_dst}"
             f",protocol={data['protocol']}"
-            f' length={data["length"]}'
-            f',interarrival={data["interarrival"]}'
+            f' length={data["ip.len"]}'
+            f',interarrival={data["frame.time_delta"]}'
             f',ip_src="{data["ip.src"]}"'
             f',ip_dst="{data["ip.dst"]}"'
             f',eth_src="{data["eth.src"]}"'
             f',eth_dst="{data["eth.dst"]}"'
-            f',port_src="{data["srcport"]}"'
-            f',port_dst="{data["dstport"]}"'
+            # pick the non empty port
+            f',port_src="{data["tcp.srcport"] or data["udp.srcport"]}"'
+            f',port_dst="{data["tcp.dstport"] or data["udp.dstport"]}"'
             f' {data["time"]}\n'
         )
 
     # write this to a file that the telegraf plugin will read!
-    with open("/mnt/telegraf_data/sshdump.out", "a") as f:
+    with open("./sshdump.out", "a") as f:
         f.write(influx_line)
 
 
