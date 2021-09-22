@@ -27,6 +27,7 @@ def read_process_tcpdump():
                         float(str_with_comma[1:-2]) * CONVERT_NANOSEC
                     )
 
+                # protocol is metadata
                 if "tcp" in line:
                     tcpdump_data["protocol"] = "TCP"
 
@@ -89,7 +90,7 @@ def print_tcpdump(data):
         )
 
     # write this to a file that the telegraf plugin will read!
-    with open("./sshdump.out", "a") as f:
+    with open("/mnt/telegraf_data/sshdump.out", "a") as f:
         f.write(influx_line)
 
 
