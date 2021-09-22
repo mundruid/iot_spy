@@ -4,7 +4,7 @@
     "ip.src": "",
     "ip.dst": "",
     "ip.len": "",
-    "frame.time_delta": "",
+    "frame.time_delta_displayed": "",
     "tcp.srcport": "",
     "udp.srcport": "",
     "tcp.dstport": "",

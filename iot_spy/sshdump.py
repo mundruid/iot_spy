@@ -11,7 +11,7 @@ def read_process_tcpdump():
 
     start = False
 
-    with open("iot_spy/data/tcpdump_fields.json") as tcpdump_fields:
+    with open("iot_spy/data/tcpdump_fields.json", encoding="utf-8") as tcpdump_fields:
         tcpdump_data = json.load(tcpdump_fields)
 
         for line in sys.stdin:
@@ -24,9 +24,7 @@ def read_process_tcpdump():
                 # timestamp is always needed
                 if "frame.time_epoch" in line:
                     str_with_comma = line.split()[1]
-                    tcpdump_data["time"] = int(
-                        float(str_with_comma[1:-2]) * CONVERT_NANOSEC
-                    )
+                    timestamp = int(float(str_with_comma[1:-2]) * CONVERT_NANOSEC)
 
                 # protocol is metadata
                 if "tcp" in line:
@@ -40,7 +38,7 @@ def read_process_tcpdump():
                         str_with_comma = line.split()[1]
                         tcpdump_data[key] = str_with_comma[1:-2]
 
-                        if key == "frame.time_delta":
+                        if key == "frame.time_delta_displayed":
                             tcpdump_data[key] = float(tcpdump_data[key])
 
                         # there may be two of these, one mac and one diff format
@@ -51,23 +49,22 @@ def read_process_tcpdump():
                         if key == "eth_src" and not eth_src:
                             eth_src = True
 
-                        if key == "tcp.dstport":
-                            print_tcpdump(tcpdump_data)
-                            start = False
+                # TODO: find a more standard way to get to the end, such as:
+                # tcp.segment_data or udp.segment_data (is there such thing???)
+                # what if not tcp or udp??
+                if "tcp.segment_data" in line:
+                    print_tcpdump(tcpdump_data, timestamp)
+                    start = False
 
-                        if key == "udp.dstport":
-                            print_tcpdump(tcpdump_data)
-                            start = False
 
-
-def print_tcpdump(data):
+def print_tcpdump(data, timestamp):
     """Print tcpdump in line protocol format.
 
     Args:
         data (dict): Dictionary with tcpdump fields.
     """
 
-    with open("iot_spy/data/devices.json", encoding="utf8") as devices_file:
+    with open("iot_spy/data/devices.json", encoding="utf-8") as devices_file:
         devices = json.load(devices_file)
         device_src = devices.get(data["eth.src"], "unknown")
         device_dst = devices.get(data["eth.dst"], "unknown")
@@ -77,7 +74,7 @@ def print_tcpdump(data):
             f",device_dst={device_dst}"
             f",protocol={data['protocol']}"
             f' length={data["ip.len"]}'
-            f',interarrival={data["frame.time_delta"]}'
+            f',interarrival={data["frame.time_delta_displayed"]}'
             f',ip_src="{data["ip.src"]}"'
             f',ip_dst="{data["ip.dst"]}"'
             f',eth_src="{data["eth.src"]}"'
@@ -85,11 +82,12 @@ def print_tcpdump(data):
             # pick the non empty port
             f',port_src="{data["tcp.srcport"] or data["udp.srcport"]}"'
             f',port_dst="{data["tcp.dstport"] or data["udp.dstport"]}"'
-            f' {data["time"]}\n'
+            f" {timestamp}\n"
         )
 
     # write this to a file that the telegraf plugin will read!
-    with open("/mnt/telegraf_data/sshdump.out", "a") as f:
+    # with open("/mnt/telegraf_data/sshdump.out", "a") as f:
+    with open("./sshdump.out", "a", encoding="utf-8") as f:
         f.write(influx_line)
 
 
