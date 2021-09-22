@@ -1,0 +1,7 @@
+export INFLUXDB_HTTP_AUTH_ENABLED=true
+export INFLUXDB_DB=influxdb
+export INFLUXDB_URL=http://influxdb:8086
+export INFLUXDB_USER=user
+export INFLUXDB_USER_PASSWORD=
+export INFLUXDB_ADMIN_USER=admin
+export INFLUXDB_ADMIN_PASSWORD=

@@ -1,0 +1,12 @@
+{
+    "eth.src": "",
+    "eth.dst": "",
+    "ip.src": "",
+    "ip.dst": "",
+    "srcport": "",
+    "dstport": "",
+    "protocol": "",
+    "length": "",
+    "time": "",
+    "interarrival": ""
+}
