@@ -7,6 +7,7 @@ CONVERT_NANOSEC = 1000000000
 
 
 def read_process_tcpdump():
+    """Read stdin tcpdump json and call the print function to convert it to influxdb protocol."""
 
     start = False
 
@@ -60,14 +61,12 @@ def read_process_tcpdump():
 
 
 def print_tcpdump(data):
-    """Line includes:
-    "ip.src": "10.0.0.227",
-    "ip.dst": "45.60.32.80",
-    "ip.len": "183",
-    "tcp.srcport": "45614",
-    "tcp.dstport": "443",
-    "frame.time_epoch": "1630978241.686958032",
+    """Print tcpdump in line protocol format.
+
+    Args:
+        data (dict): Dictionary with tcpdump fields.
     """
+
     with open("iot_spy/data/devices.json", encoding="utf8") as devices_file:
         devices = json.load(devices_file)
         device_src = devices.get(data["eth.src"], "unknown")
