@@ -1,12 +1,12 @@
 {
-    "eth.src": "",
+    "frame.time_delta_displayed": "",
     "eth.dst": "",
+    "eth.src": "",
     "ip.src": "",
     "ip.dst": "",
-    "srcport": "",
-    "dstport": "",
-    "protocol": "",
-    "length": "",
-    "time": "",
-    "interarrival": ""
+    "ip.len": "",
+    "tcp.srcport": "",
+    "udp.srcport": "",
+    "tcp.dstport": "",
+    "udp.dstport": ""
 }
