@@ -1,17 +1,18 @@
 """Metrics utility for reporting IoT measurements."""
 import sys
 import json
+import re
 
 
 CONVERT_NANOSEC = 1000000000
+MODELS = "iot_spy/models"
 
 
 def read_process_tcpdump():
     """Read stdin tcpdump json and call the print function to convert it to influxdb protocol."""
 
     start = False
-
-    with open("iot_spy/data/tcpdump_fields.json", encoding="utf-8") as tcpdump_fields:
+    with open(f"{MODELS}/tcpdump_fields.json", encoding="utf-8") as tcpdump_fields:
         tcpdump_data = json.load(tcpdump_fields)
 
         for line in sys.stdin:
@@ -36,23 +37,22 @@ def read_process_tcpdump():
                     tcpdump_data["protocol"] = "UDP"
 
                 for key in tcpdump_data:
-                    if key in line:
+                    if re.search(r"\b" + key + r"\b", line):
                         str_with_comma = line.split()[1]
+                        tcpdump_data[key] = str_with_comma[1:-2]
 
                         # there may be two of these, one mac and one diff format
                         if key == "eth.dst" and not eth_dst:
-                            tcpdump_data[key] = str_with_comma[1:-2]
                             eth_dst = True
 
                         # there may be two of these, one mac and one diff format
                         if key == "eth.src" and not eth_src:
-                            tcpdump_data[key] = str_with_comma[1:-2]
                             eth_src = True
 
-                        if key != "eth.dst" and key != "eth.dst":
-                            tcpdump_data[key] = str_with_comma[1:-2]
+                        # if key != "eth.dst" and key != "eth.dst":
+                        #     tcpdump_data[key] = str_with_comma[1:-2]
 
-                        # print(f"tcpdump_data[{key}] = {tcpdump_data[key]}")
+                        print(f"tcpdump_data[{key}] = {tcpdump_data[key]}")
                         # needs to be converted for math calculations
                         # TODO: more fields may need this conversion
                         if key == "frame.time_delta_displayed":
@@ -87,7 +87,7 @@ def print_tcpdump(data, timestamp):
         data (dict): Dictionary with tcpdump fields.
     """
 
-    with open("iot_spy/data/devices.json", encoding="utf-8") as devices_file:
+    with open(f"{MODELS}/devices.json", encoding="utf-8") as devices_file:
         devices = json.load(devices_file)
         device_src = devices.get(data["eth.src"], "unknown")
         device_dst = devices.get(data["eth.dst"], "unknown")
@@ -109,7 +109,6 @@ def print_tcpdump(data, timestamp):
         )
 
     # write this to a file that the telegraf plugin will read!
-    # with open("/mnt/telegraf_data/sshdump.out", "a") as f:
     with open("/mnt/telegraf_data/sshdump.out", "a", encoding="utf-8") as f:
         f.write(influx_line)
 

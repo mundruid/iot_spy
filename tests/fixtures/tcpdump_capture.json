@@ -25,7 +25,7 @@
                     "frame.protocols": "eth:ethertype:ip:tcp:ssl"
                 },
                 "eth": {
-                    "eth.dst": "98:f7:81:b5:34:62",
+                    "eth.dst": "mac1",
                     "eth.dst_tree": {
                         "eth.dst_resolved": "ArrisGro_b5:34:62",
                         "eth.addr": "98:f7:81:b5:34:62",
@@ -33,7 +33,7 @@
                         "eth.lg": "0",
                         "eth.ig": "0"
                     },
-                    "eth.src": "5a:ab:da:64:86:f0",
+                    "eth.src": "mac2",
                     "eth.src_tree": {
                         "eth.src_resolved": "5a:ab:da:64:86:f0",
                         "eth.addr": "5a:ab:da:64:86:f0",

@@ -1,0 +1,30 @@
+[
+    {
+        "_index": "packets-2021-09-06",
+        "_type": "pcap_file",
+        "_score": null,
+        "_source": {
+            "layers": {
+                "frame": {
+                    "frame.interface_id": "0",
+                    "frame.interface_id_tree": {
+                        "frame.interface_name": "wlan0"
+                    },
+                    "frame.encap_type": "1",
+                    "frame.time": "Sep  6, 2021 21:30:41.686239335 EDT",
+                    "frame.offset_shift": "0.000000000",
+                    "frame.time_epoch": "1630978241.686239335",
+                    "frame.time_delta": "0.000000000",
+                    "frame.time_delta_displayed": "0.000000000",
+                    "frame.time_relative": "0.000000000",
+                    "frame.number": "1",
+                    "frame.len": "1514",
+                    "frame.cap_len": "1514",
+                    "frame.marked": "0",
+                    "frame.ignored": "0",
+                    "frame.protocols": "eth:ethertype:ip:tcp:ssl"
+                }
+            }
+        }
+    }
+]
