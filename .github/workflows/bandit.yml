@@ -10,4 +10,4 @@ jobs:
       - uses: actions/checkout@v2
       - uses: jpetrucciani/bandit-check@master
         with:
-          bandit_flags: "-r iot_spy/ -c .bandit.yml"
+          bandit_flags: "-r iot_spy/ -s tests/"
