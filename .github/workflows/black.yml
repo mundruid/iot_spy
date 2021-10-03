@@ -12,4 +12,3 @@ jobs:
         uses: jpetrucciani/black-check@master
         with:
           path: "."
-:w
