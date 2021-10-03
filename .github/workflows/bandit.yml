@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: mdegis/bandit-action@v1
+      - uses: mdegis/bandit-action@v1.0
         with:
           path: "."
           excluded_paths: "./test/"
