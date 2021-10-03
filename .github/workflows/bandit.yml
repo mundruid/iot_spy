@@ -4,8 +4,7 @@ on: [push]
 
 jobs:
   build:
-
-  steps:
-    - uses: jpetrucciani/bandit-check@master
-      with:
-        path: "."
+    steps:
+      - uses: jpetrucciani/bandit-check@master
+        with:
+          path: "."
