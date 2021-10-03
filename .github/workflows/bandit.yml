@@ -8,6 +8,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: petrucciani/bandit-check@master
+      - uses: jpetrucciani/bandit-check@master
         with:
           bandit_flags: "-r ./iot_spy/ -c .bandit.yml"
