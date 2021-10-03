@@ -5,6 +5,7 @@ on: [push]
 jobs:
   build:
     steps:
+      - uses: actions/checkout@v2
       - uses: jpetrucciani/bandit-check@master
         with:
           path: "."
