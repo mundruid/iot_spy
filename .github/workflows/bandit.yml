@@ -1,6 +1,11 @@
-uses: jpetrucciani/bandit-check@master
+name: Bandit
 
 on: [push]
 
-with:
-  path: "."
+jobs:
+  build:
+
+  steps:
+    - uses: jpetrucciani/bandit-check@master
+      with:
+        path: "."
