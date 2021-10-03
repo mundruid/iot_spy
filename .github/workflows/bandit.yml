@@ -8,6 +8,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: jpetrucciani/bandit-check@master
+      - uses: mdegis/bandit-action@v1
         with:
           path: "."
+          excluded_paths: "./test/"
