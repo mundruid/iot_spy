@@ -2,6 +2,6 @@
 .vscode
 iot_spy/data/devices.json
 .pytest_cache/
-tests/__pycache__/*
-iot_spy/__pycache__/*
-tests/unit/__pycache__/*
+tests/__pycache__
+iot_spy/__pycache__
+tests/unit/__pycache__

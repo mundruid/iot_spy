@@ -1,0 +1,8 @@
+uses: jpetrucciani/bandit-check@master
+
+on: [push]
+
+# specify a path
+uses: jpetrucciani/bandit-check@master
+with:
+  path: '.'
