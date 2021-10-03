@@ -49,25 +49,18 @@ def read_process_tcpdump():
                         if key == "eth.src" and not eth_src:
                             eth_src = True
 
-                        # if key != "eth.dst" and key != "eth.dst":
-                        #     tcpdump_data[key] = str_with_comma[1:-2]
-
                         print(f"tcpdump_data[{key}] = {tcpdump_data[key]}")
                         # needs to be converted for math calculations
-                        # TODO: more fields may need this conversion
+                        # (fixme): more fields may need this conversion
                         if key == "frame.time_delta_displayed":
                             tcpdump_data[key] = float(tcpdump_data[key])
 
-                        # TODO: find a more generalized way to stop
-                        if key == "tcp.dstport":
+                        # (fixme): find a more generalized way to stop
+                        if key in ("tcp.dstport", "udp.dstport"):
                             print_tcpdump(tcpdump_data, timestamp)
                             start = False
 
-                        if key == "udp.dstport":
-                            print_tcpdump(tcpdump_data, timestamp)
-                            start = False
-
-                # generalized way to stop that does not work
+                # (fixme): generalized way to stop that does not work
                 # if (
                 #     "tcp.segment_data"
                 #     or "udp.stream"
@@ -109,8 +102,8 @@ def print_tcpdump(data, timestamp):
         )
 
     # write this to a file that the telegraf plugin will read!
-    with open("/mnt/telegraf_data/sshdump.out", "a", encoding="utf-8") as f:
-        f.write(influx_line)
+    with open("/mnt/telegraf_data/sshdump.out", "a", encoding="utf-8") as output_file:
+        output_file.write(influx_line)
 
 
 def main():
