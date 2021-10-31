@@ -5,7 +5,7 @@ import re
 
 
 CONVERT_NANOSEC = 1000000000
-MODELS = "/home/drx/sandbox/iot_spy/iot_spy/models"
+MODELS = "iot_spy/models"
 
 
 def read_process_tcpdump():
