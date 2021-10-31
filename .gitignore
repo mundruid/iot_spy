@@ -1,6 +1,6 @@
 .env.sh
 .vscode
-iot_spy/data/devices.json
+iot_spy/models/devices.json
 .pytest_cache/
 tests/__pycache__
 iot_spy/__pycache__

@@ -5,7 +5,7 @@ import re
 
 
 CONVERT_NANOSEC = 1000000000
-MODELS = "iot_spy/models"
+MODELS = "/home/drx/sandbox/iot_spy/iot_spy/models"
 
 
 def read_process_tcpdump():
@@ -49,7 +49,7 @@ def read_process_tcpdump():
                         if key == "eth.src" and not eth_src:
                             eth_src = True
 
-                        print(f"tcpdump_data[{key}] = {tcpdump_data[key]}")
+                        # print(f"tcpdump_data[{key}] = {tcpdump_data[key]}")
                         # needs to be converted for math calculations
                         # (fixme): more fields may need this conversion
                         if key == "frame.time_delta_displayed":
@@ -89,6 +89,8 @@ def print_tcpdump(data, timestamp):
             f",device_src={device_src}"
             f",device_dst={device_dst}"
             f",protocol={data['protocol']}"
+            f',port_src={data["tcp.srcport"] or data["udp.srcport"]}'
+            f',port_dst={data["tcp.dstport"] or data["udp.dstport"]}'
             f' length={data["ip.len"]}'
             f',interarrival={data["frame.time_delta_displayed"]}'
             f',ip_src="{data["ip.src"]}"'
