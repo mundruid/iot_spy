@@ -5,11 +5,10 @@ import re
 
 
 CONVERT_NANOSEC = 1000000000
-MODELS = "iot_spy/models"
+MODELS = "/home/drx/sandbox/iot_spy/iot_spy/models"
 
 
 def read_process_tcpdump():
-    """Read stdin tcpdump json and call the print function to convert it to influxdb protocol."""
 
     start = False
     with open(f"{MODELS}/tcpdump_fields.json", encoding="utf-8") as tcpdump_fields:
