@@ -3,7 +3,6 @@ import sys
 import json
 import re
 
-
 CONVERT_NANOSEC = 1000000000
 MODELS = "iot_spy/models"
 

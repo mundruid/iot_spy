@@ -84,7 +84,7 @@ cp ./telegraf/telegraf.conf /mnt/telegraf
 chown -R 472:472 /mnt/grafana #this gives permission to the grafana user to access this dir
 ```
 
-You will need to substitute the root_url with your host name. Edit the .env-sample.sh and add your user passwords. Then run: source.env-sample.sh
+You will need to substitute the root_url with your host name. Edit the .env-sample.sh and add your user passwords. Then run: source .env-sample.sh
 
 ### Stand up TIG containers
 

@@ -7,7 +7,7 @@ docker-compose -f /home/drx/sandbox/iot_spy/docker/docker-compose.yml down
 # move file to storage
 NOW=`date '+%F_%H:%M:%S'`;
 filename="/mnt/telegraf_data/sshdmp_$NOW.out"
-mv /mnt/telegraf_data/sshdmp.out $filename
+mv /mnt/telegraf_data/sshdump.out $filename
 
 # restart sshdump and containers
 # TODO: convert to three exec plugins
