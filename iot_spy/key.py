@@ -1,10 +1,17 @@
-from random import random
-
+"""This is a hash example algorithm."""
 import hashlib
 
 
 def weak_hash(secret):
-    return hashlib.md5(secret)
+    """Hash example.
+
+    Args:
+        secret (str): Plaintext secret.
+
+    Returns:
+        str: Hashed secret.
+    """
+    return hashlib.sha256(secret)
 
 
-print(weak_key("drx"))
+print(weak_hash("drx"))
