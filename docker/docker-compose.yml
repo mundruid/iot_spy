@@ -4,7 +4,7 @@ services:
     ports:
       - "127.0.0.1:3000:3000"
     volumes:
-      - "/mnt/grafana:/var/lib/grafana"
+      - "~/tmp/grafana:/var/lib/grafana"
     environment:
       GF_PATHS_CONFIG: "/var/lib/grafana/grafana.ini"
     container_name: grafana
@@ -17,7 +17,7 @@ services:
     ports:
       - "127.0.0.1:8086:8086"
     volumes:
-      - "/mnt/influxdb:/var/lib/influxdb"
+      - "~/tmp/influxdb:/var/lib/influxdb"
     environment:
       INFLUXDB_HTTP_AUTH_ENABLED: "True"
       INFLUXDB_DB: "influxdb"
@@ -33,8 +33,8 @@ services:
   telegraf:
     image: telegraf:1.19
     volumes:
-      - "/mnt/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf"
-      - "/mnt/telegraf_data/:/usr/local/sbin/"
+      - "~/tmp/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf"
+      - "/tmp/telegraf_data/:/usr/local/sbin/"
     environment:
       INFLUXDB_USER: "user"
       INFLUXDB_USER_PASSWORD: "${INFLUXDB_USER_PASSWORD}"
