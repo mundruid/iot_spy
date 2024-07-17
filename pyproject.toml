@@ -6,6 +6,7 @@ authors = ["DrX <xenia.mountrouidou@networktocode.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+py = "^1.11.0"
 
 [tool.poetry.dev-dependencies]
 ipython = "^7.27.0"
